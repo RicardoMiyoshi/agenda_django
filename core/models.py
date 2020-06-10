@@ -15,3 +15,6 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.titulo # para que quando o registro for acessado, o nome do título seja mostrado
+
+    def get_data_evento(self): # altera o formato da data e hora
+        return self.data_evento.strftime('%d/%m/%Y %H:%M Hrs')
