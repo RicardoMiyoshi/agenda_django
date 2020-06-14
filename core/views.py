@@ -55,6 +55,7 @@ def submit_evento(request):
     if request.POST:
         titulo = request.POST.get('titulo')
         data_evento = request.POST.get('data_evento')
+        local = request.POST.get('local')
         descricao = request.POST.get('descricao')
         usuario = request.user
         id_evento = request.POST.get('id_evento')
@@ -63,6 +64,7 @@ def submit_evento(request):
             if evento.usuario == usuario:
                 evento.titulo = titulo
                 evento.descricao = descricao
+                evento.local = local
                 evento.data_evento = data_evento
                 evento.save()
             # Evento.objects.filter(id=id_evento).update(titulo=titulo,
@@ -71,6 +73,7 @@ def submit_evento(request):
         else:
             Evento.objects.create(titulo=titulo,
                                 data_evento=data_evento,
+                                local=local,
                                 descricao=descricao,
                                 usuario=usuario)
     return redirect('/')
@@ -93,3 +96,12 @@ def json_lista_evento(request):
     usuario = request.user
     evento = Evento.objects.filter(usuario=usuario).values('id', 'titulo')
     return JsonResponse(list(evento), safe=False)
+
+@login_required(login_url='/login/')
+def historico(request):
+    usuario = request.user 
+    data_atual = datetime.now()
+    evento = Evento.objects.filter(usuario=usuario,
+                                   data_evento__lt=data_atual)
+    data = {'eventos': evento}
+    return render(request, 'historico.html', data)

@@ -10,6 +10,7 @@ class Evento(models.Model):
     data_evento = models.DateTimeField(verbose_name='Data do Evento')
     data_criacao = models.DateTimeField(auto_now=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    local = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
         db_table = 'evento' # força o nome da tabela como evento, caso contrário ele coloca o nome do app antes de evento, neste caso core_evento
@@ -25,6 +26,12 @@ class Evento(models.Model):
 
     def get_evento_atrasado(self):
         if self.data_evento < datetime.now():
+            return True
+        else:
+            return False
+
+    def get_evento_falta_1_hora(self):
+        if self.data_evento < datetime.now() + timedelta(hours=1):
             return True
         else:
             return False

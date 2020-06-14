@@ -8,11 +8,15 @@
     <label>Título</label>
     <input type="number" name="id_evento" value="{{ evento.id }}" hidden>
     <br>
-    <input type="text" name="titulo" size="23" value="{{ evento.titulo }}"> <!--neste componente, o conteúdo preenchido é colocado no atributo value-->
+    <input type="text" name="titulo" size="24" value="{{ evento.titulo }}"> <!--neste componente, o conteúdo preenchido é colocado no atributo value-->
     <br>
     <label>Data do Evento:</label>
     <br>
     <input type="datetime-local" name="data_evento" value="{{ evento.get_data_input_evento }}"> <!--necessário criar uma função no models para ajustar o formato aceito de datetim-->
+    <br>
+    <label>Local</label>
+    <br>
+    <input type="text" name="local" size="24" value="{{ evento.local }}">
     <br>
     <label>Descrição:</label>
     <br>
